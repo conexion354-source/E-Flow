@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E‑Flow - Control de Cheques</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="login" class="login-screen">
+
+<img src="mundoled.png" class="logo-empresa">
+
+<h2>Sistema de Control de Cheques</h2>
+
+<input type="password" id="clave" placeholder="Ingrese clave">
+
+<button onclick="login()">Ingresar</button>
+
+</div>
+
+
+<div id="app" class="app">
+
+<header>
+
+<img src="eflow.png" class="logo-app">
+<h3>E‑Flow</h3>
+
+</header>
+
+<div class="dashboard">
+
+<div class="card">
+<h4>Total dinero</h4>
+<p id="total">$0</p>
+</div>
+
+<div class="card">
+<h4>Cheques</h4>
+<p id="cantidad">0</p>
+</div>
+
+<div class="card red">
+<h4>Vencidos</h4>
+<p id="vencidos">0</p>
+</div>
+
+<div class="card yellow">
+<h4>Próx 7 días</h4>
+<p id="proximos">0</p>
+</div>
+
+</div>
+
+<input class="buscador" id="buscar" placeholder="Buscar proveedor o banco">
+
+<div id="lista" class="lista"></div>
+
+<nav class="menu">
+<div>🏠 Panel</div>
+<div>📄 Cheques</div>
+<div>📊 Reportes</div>
+<div>⚙ Config</div>
+</nav>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+ navigator.serviceWorker.register('./sw.js')
+}
+</script>
+
+</body>
+</html>
