@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>E-Flow | Control de Cheques</title>
+  <meta name="theme-color" content="#111827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="login-mode">
+  <section id="login" class="login-screen">
+    <img src="mundoled.png" class="logo-empresa" alt="Mundo Led">
+    <div class="login-card">
+      <p class="eyebrow">Sistema privado</p>
+      <h1>Control de Cheques</h1>
+      <p class="muted">Ingresá tu clave para acceder al panel.</p>
+      <input type="password" id="clave" placeholder="Clave de acceso">
+      <button class="primary" onclick="login()">Ingresar</button>
+      <p class="login-note">Aplicación interna</p>
+    </div>
+  </section>
+
+  <main id="app" class="app hidden" aria-hidden="true">
+    <header class="topbar">
+      <div class="brand">
+        <img src="eflow.png" class="logo-app" alt="E-Flow">
+        <div>
+          <strong>E-Flow</strong>
+          <p>Control de cheques</p>
+        </div>
+      </div>
+      <button id="installBtn" class="ghost hidden">Instalar app</button>
+    </header>
+
+    <section id="panelView" class="view active">
+      <div class="section-head">
+        <h2>Panel</h2>
+        <p>Resumen general en tiempo real</p>
+      </div>
+      <div class="dashboard">
+        <article class="card">
+          <span>Total dinero</span>
+          <strong id="total">$0</strong>
+        </article>
+        <article class="card">
+          <span>Cheques</span>
+          <strong id="cantidad">0</strong>
+        </article>
+        <article class="card red">
+          <span>Vencidos</span>
+          <strong id="vencidos">0</strong>
+        </article>
+        <article class="card yellow">
+          <span>Próx. 7 días</span>
+          <strong id="proximos">0</strong>
+        </article>
+      </div>
+      <div class="chart-card">
+        <div class="section-subhead">
+          <h3>Distribución por banco</h3>
+        </div>
+        <canvas id="graficoBancos"></canvas>
+      </div>
+    </section>
+
+    <section id="chequesView" class="view">
+      <div class="section-head">
+        <h2>Cheques</h2>
+        <p>Listado completo</p>
+      </div>
+      <input class="buscador" id="buscar" placeholder="Buscar proveedor, banco o número">
+      <div id="lista" class="lista"></div>
+    </section>
+
+    <section id="reportesView" class="view">
+      <div class="section-head">
+        <h2>Reportes</h2>
+        <p>Resumen operativo</p>
+      </div>
+      <div class="report-grid">
+        <article class="report-card">
+          <span>Monto promedio</span>
+          <strong id="promedio">$0</strong>
+        </article>
+        <article class="report-card">
+          <span>Banco principal</span>
+          <strong id="bancoPrincipal">-</strong>
+        </article>
+        <article class="report-card">
+          <span>Proveedor principal</span>
+          <strong id="proveedorPrincipal">-</strong>
+        </article>
+      </div>
+      <div class="chart-card">
+        <div class="section-subhead">
+          <h3>Top proveedores por monto</h3>
+        </div>
+        <canvas id="graficoProveedores"></canvas>
+      </div>
+    </section>
+
+    <section id="configView" class="view">
+      <div class="section-head">
+        <h2>Configuración</h2>
+        <p>Acceso y aplicación</p>
+      </div>
+      <div class="config-card">
+        <div class="config-row">
+          <div>
+            <strong>Instalar aplicación</strong>
+            <p>Guardala en la pantalla principal del teléfono.</p>
+          </div>
+          <button id="installBtnInside" class="primary alt hidden">Instalar app</button>
+        </div>
+        <div class="config-row">
+          <div>
+            <strong>Salir</strong>
+            <p>Bloquear el sistema y volver al login.</p>
+          </div>
+          <button class="ghost danger" onclick="logout()">Cerrar sesión</button>
+        </div>
+      </div>
+      <div class="privacy-note">
+        <strong>Privacidad</strong>
+        <p>La clave oculta el panel en la app, pero para privacidad real también hay que proteger la API de Google Apps Script. Si querés, te preparo esa parte después.</p>
+      </div>
+    </section>
+
+    <nav class="menu">
+      <button class="menu-item active" data-view="panelView">🏠<span>Panel</span></button>
+      <button class="menu-item" data-view="chequesView">📄<span>Cheques</span></button>
+      <button class="menu-item" data-view="reportesView">📊<span>Reportes</span></button>
+      <button class="menu-item" data-view="configView">⚙️<span>Config</span></button>
+    </nav>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+</html>
