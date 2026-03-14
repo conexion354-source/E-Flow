@@ -1,14 +1,108 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-Flow | Panel de Cheques</title>
-    <meta name="theme-color" content="#0f172a" />
-    <meta name="description" content="E-Flow - Panel de reportes de cheques en tiempo real" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="./src/main.jsx"></script>
-  </body>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>E-Flow Panel de Cheques</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f6f9;
+margin:0;
+padding:40px;
+}
+
+h1{
+text-align:center;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+th,td{
+padding:10px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+th{
+background:#222;
+color:white;
+}
+
+tr:nth-child(even){
+background:#f2f2f2;
+}
+
+.monto{
+text-align:right;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>E-Flow | Panel de Cheques</h1>
+
+<table id="tabla">
+<thead>
+<tr>
+
+<th>Fecha salida</th>
+<th>Proveedor</th>
+<th>Fecha pago</th>
+<th>Banco</th>
+<th>N° cheque</th>
+<th>Tipo</th>
+<th>Monto</th>
+<th>Estado</th>
+
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+<script>
+
+const API="https://script.google.com/macros/s/AKfycbw9F4mZYEfxW7cgbKwg3oZ2eNLkRzLG2-AaT6f2BnBazZ3nMq6JokoVJ5b6Dmk7vc9P/exec"
+
+fetch(API)
+.then(r=>r.json())
+.then(data=>{
+
+const tbody=document.querySelector("#tabla tbody")
+
+data.forEach(c=>{
+
+const tr=document.createElement("tr")
+
+tr.innerHTML=`
+
+<td>${c.fechaSalida}</td>
+<td>${c.proveedor}</td>
+<td>${c.fechaPago}</td>
+<td>${c.banco}</td>
+<td>${c.numeroCheque}</td>
+<td>${c.tipo}</td>
+<td class="monto">$ ${c.monto}</td>
+<td>${c.estado}</td>
+
+`
+
+tbody.appendChild(tr)
+
+})
+
+})
+
+</script>
+
+</body>
 </html>
