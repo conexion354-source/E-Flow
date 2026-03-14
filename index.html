@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>E-Flow | Panel de Cheques</title>
+<title>E-Flow</title>
 
 <style>
 
@@ -14,55 +14,34 @@ margin:0;
 padding:30px;
 }
 
-h1{
-text-align:center;
-margin-bottom:30px;
-}
-
-.dashboard{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:15px;
-margin-bottom:30px;
-}
-
-.card{
+.login{
+width:300px;
+margin:120px auto;
 background:white;
-padding:20px;
+padding:30px;
+text-align:center;
 border-radius:8px;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
-text-align:center;
+box-shadow:0 2px 10px rgba(0,0,0,0.2);
 }
 
-.total{background:#2c3e50;color:white}
-.hoy{background:#27ae60;color:white}
-.siete{background:#f1c40f}
-.quince{background:#e67e22;color:white}
-.mas{background:#e74c3c;color:white}
-
-table{
+input{
 width:100%;
-border-collapse:collapse;
-background:white;
-}
-
-th,td{
 padding:10px;
-border:1px solid #ddd;
-font-size:14px;
+margin-top:10px;
 }
 
-th{
-background:#222;
+button{
+margin-top:10px;
+padding:10px;
+width:100%;
+background:#2c3e50;
 color:white;
+border:none;
+cursor:pointer;
 }
 
-tr:nth-child(even){
-background:#f2f2f2;
-}
-
-.monto{
-text-align:right;
+#app{
+display:none;
 }
 
 </style>
@@ -71,49 +50,27 @@ text-align:right;
 
 <body>
 
-<h1>E-Flow | Panel de Cheques</h1>
+<div class="login" id="login">
 
-<div class="dashboard">
+<h2>E-Flow</h2>
 
-<div class="card total">
-<h3>Total $</h3>
-<h2 id="total">$0</h2>
-</div>
+<input type="password" id="clave" placeholder="Clave de acceso">
 
-<div class="card hoy">
-<h3>Hoy</h3>
-<h2 id="hoy">0</h2>
-</div>
-
-<div class="card siete">
-<h3>1-7 días</h3>
-<h2 id="siete">0</h2>
-</div>
-
-<div class="card quince">
-<h3>8-15 días</h3>
-<h2 id="quince">0</h2>
-</div>
-
-<div class="card mas">
-<h3>+15 días</h3>
-<h2 id="mas">0</h2>
-</div>
+<button onclick="entrar()">Ingresar</button>
 
 </div>
 
+<div id="app">
 
-<table id="tabla">
+<h1>Panel de Cheques</h1>
+
+<table border="1" width="100%" id="tabla">
 
 <thead>
 <tr>
 
-<th>Fecha salida</th>
 <th>Proveedor</th>
 <th>Fecha pago</th>
-<th>Banco</th>
-<th>N° cheque</th>
-<th>Tipo</th>
 <th>Monto</th>
 <th>Estado</th>
 
@@ -124,8 +81,32 @@ text-align:right;
 
 </table>
 
+</div>
 
 <script>
+
+const PASSWORD="1234"
+
+function entrar(){
+
+let clave=document.getElementById("clave").value
+
+if(clave===PASSWORD){
+
+document.getElementById("login").style.display="none"
+document.getElementById("app").style.display="block"
+
+cargar()
+
+}else{
+
+alert("Clave incorrecta")
+
+}
+
+}
+
+function cargar(){
 
 const API="https://script.google.com/macros/s/AKfycbw9F4mZYEfxW7cgbKwg3oZ2eNLkRzLG2-AaT6f2BnBazZ3nMq6JokoVJ5b6Dmk7vc9P/exec"
 
@@ -135,60 +116,26 @@ fetch(API)
 
 const tbody=document.querySelector("#tabla tbody")
 
-let total=0
-let hoy=0
-let siete=0
-let quince=0
-let mas=0
-
-const hoyFecha=new Date()
-
 data.forEach(c=>{
 
 const tr=document.createElement("tr")
 
 tr.innerHTML=`
 
-<td>${c.fechaSalida}</td>
 <td>${c.proveedor}</td>
 <td>${c.fechaPago}</td>
-<td>${c.banco}</td>
-<td>${c.numeroCheque}</td>
-<td>${c.tipo}</td>
-<td class="monto">$ ${c.monto}</td>
+<td>$ ${c.monto}</td>
 <td>${c.estado}</td>
 
 `
 
 tbody.appendChild(tr)
 
-let monto=parseFloat(
-String(c.monto)
-.replace(/\./g,"")
-.replace(",",".")
-)
-
-if(!isNaN(monto)) total+=monto
-
-let fechaPago=new Date(c.fechaPago)
-let diff=(fechaPago-hoyFecha)/(1000*60*60*24)
-
-if(diff<=0) hoy++
-else if(diff<=7) siete++
-else if(diff<=15) quince++
-else mas++
+})
 
 })
 
-document.getElementById("total").innerText=
-"$ "+total.toLocaleString("es-AR")
-
-document.getElementById("hoy").innerText=hoy
-document.getElementById("siete").innerText=siete
-document.getElementById("quince").innerText=quince
-document.getElementById("mas").innerText=mas
-
-})
+}
 
 </script>
 
