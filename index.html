@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>E-Flow PRO</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="header">E‑Flow PRO</div>
+
+<div id="login" class="login">
+
+<h2>Acceso</h2>
+
+<input type="password" id="clave" placeholder="Clave">
+
+<button onclick="login()">Ingresar</button>
+
+</div>
+
+<div id="app">
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Total dinero</h3>
+<h2 id="total">$0</h2>
+</div>
+
+<div class="card">
+<h3>Total cheques</h3>
+<h2 id="cantidad">0</h2>
+</div>
+
+<div class="card rojo">
+<h3>Vencidos</h3>
+<h2 id="vencidos">0</h2>
+</div>
+
+<div class="card amarillo">
+<h3>Próx 7 días</h3>
+<h2 id="siete">0</h2>
+</div>
+
+</div>
+
+<div class="buscador">
+<input id="buscar" placeholder="Buscar proveedor, banco o número">
+</div>
+
+<canvas id="grafico"></canvas>
+
+<div class="lista" id="lista"></div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

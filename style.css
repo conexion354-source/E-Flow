@@ -1,0 +1,85 @@
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,Arial;
+background:#eef1f5;
+}
+
+.header{
+background:#1e2a38;
+color:white;
+padding:16px;
+text-align:center;
+font-size:20px;
+}
+
+.login{
+padding:40px;
+}
+
+.login input{
+width:100%;
+padding:14px;
+margin-bottom:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+.login button{
+width:100%;
+padding:14px;
+background:#1e2a38;
+color:white;
+border:none;
+border-radius:8px;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+padding:15px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.rojo{border-left:6px solid #e74c3c}
+.amarillo{border-left:6px solid #f1c40f}
+
+.buscador{
+padding:15px;
+}
+
+.buscador input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+.lista{
+padding:15px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.cheque{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.vencido{
+border-left:6px solid red;
+}
+
+.proximo{
+border-left:6px solid orange;
+}
