@@ -2,46 +2,107 @@
 <html>
 <head>
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
+
 <title>E-Flow</title>
+
+<link rel="manifest" href="manifest.json">
 
 <style>
 
 body{
-font-family:Arial;
-background:#f4f6f9;
+font-family:-apple-system,BlinkMacSystemFont;
 margin:0;
-padding:30px;
+background:#eef1f5;
+}
+
+.header{
+background:#1e2a38;
+color:white;
+padding:16px;
+font-size:20px;
+text-align:center;
 }
 
 .login{
-width:300px;
-margin:120px auto;
-background:white;
-padding:30px;
-text-align:center;
+padding:40px 20px;
+}
+
+.login input{
+width:100%;
+padding:14px;
+font-size:16px;
+margin-bottom:10px;
 border-radius:8px;
-box-shadow:0 2px 10px rgba(0,0,0,0.2);
+border:1px solid #ccc;
 }
 
-input{
+.login button{
 width:100%;
-padding:10px;
-margin-top:10px;
-}
-
-button{
-margin-top:10px;
-padding:10px;
-width:100%;
-background:#2c3e50;
+padding:14px;
+font-size:16px;
+background:#1e2a38;
 color:white;
 border:none;
-cursor:pointer;
+border-radius:8px;
 }
 
 #app{
 display:none;
+padding:15px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:15px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card h3{
+margin:0;
+font-size:14px;
+color:#555;
+}
+
+.card h2{
+margin:5px 0 0 0;
+}
+
+.lista{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.cheque{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.proveedor{
+font-weight:bold;
+font-size:16px;
+}
+
+.monto{
+color:#27ae60;
+font-size:18px;
+}
+
+.estado{
+font-size:12px;
+color:#888;
 }
 
 </style>
@@ -50,11 +111,13 @@ display:none;
 
 <body>
 
+<div class="header">
+E-Flow
+</div>
+
 <div class="login" id="login">
 
-<h2>E-Flow</h2>
-
-<input type="password" id="clave" placeholder="Clave de acceso">
+<input type="password" id="clave" placeholder="Clave">
 
 <button onclick="entrar()">Ingresar</button>
 
@@ -62,30 +125,27 @@ display:none;
 
 <div id="app">
 
-<h1>Panel de Cheques</h1>
+<div class="cards">
 
-<table border="1" width="100%" id="tabla">
+<div class="card">
+<h3>Total cheques</h3>
+<h2 id="cantidad">0</h2>
+</div>
 
-<thead>
-<tr>
+<div class="card">
+<h3>Total $</h3>
+<h2 id="total">$0</h2>
+</div>
 
-<th>Proveedor</th>
-<th>Fecha pago</th>
-<th>Monto</th>
-<th>Estado</th>
+</div>
 
-</tr>
-</thead>
-
-<tbody></tbody>
-
-</table>
+<div class="lista" id="lista"></div>
 
 </div>
 
 <script>
 
-const PASSWORD="1234"
+const PASSWORD="1234nn"
 
 function entrar(){
 
@@ -108,30 +168,47 @@ alert("Clave incorrecta")
 
 function cargar(){
 
-const API="https://script.google.com/macros/s/AKfycbw9F4mZYEfxW7cgbKwg3oZ2eNLkRzLG2-AaT6f2BnBazZ3nMq6JokoVJ5b6Dmk7vc9P/exec"
+const API="https://script.google.com/macros/s/AKfycbwP6d0JB6zJdLhJizcGHPw2cs4v3Xohreh-Qxa2AbRZWDlg91RG6j3NTdfZQpMzdx1LGw/exec"
 
 fetch(API)
 .then(r=>r.json())
 .then(data=>{
 
-const tbody=document.querySelector("#tabla tbody")
+let total=0
+
+const lista=document.getElementById("lista")
 
 data.forEach(c=>{
 
-const tr=document.createElement("tr")
+let monto=parseFloat(
+String(c.monto).replace(/\./g,"").replace(",",".")
+)
 
-tr.innerHTML=`
+if(!isNaN(monto)) total+=monto
 
-<td>${c.proveedor}</td>
-<td>${c.fechaPago}</td>
-<td>$ ${c.monto}</td>
-<td>${c.estado}</td>
+const div=document.createElement("div")
+
+div.className="cheque"
+
+div.innerHTML=`
+
+<div class="proveedor">${c.proveedor}</div>
+
+<div>Pago: ${c.fechaPago}</div>
+
+<div class="monto">$ ${c.monto}</div>
+
+<div class="estado">${c.estado}</div>
 
 `
 
-tbody.appendChild(tr)
+lista.appendChild(div)
 
 })
+
+document.getElementById("cantidad").innerText=data.length
+
+document.getElementById("total").innerText="$ "+total.toLocaleString("es-AR")
 
 })
 
