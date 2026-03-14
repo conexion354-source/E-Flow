@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<title>E-Flow Panel de Cheques</title>
+<title>E-Flow | Panel de Cheques</title>
 
 <style>
 
 body{
-font-family: Arial;
+font-family:Arial;
 background:#f4f6f9;
 margin:0;
-padding:40px;
+padding:30px;
 }
 
 h1{
 text-align:center;
+margin-bottom:30px;
 }
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
+margin-bottom:30px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.total{background:#2c3e50;color:white}
+.hoy{background:#27ae60;color:white}
+.siete{background:#f1c40f}
+.quince{background:#e67e22;color:white}
+.mas{background:#e74c3c;color:white}
 
 table{
 width:100%;
@@ -43,13 +66,45 @@ text-align:right;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <h1>E-Flow | Panel de Cheques</h1>
 
+<div class="dashboard">
+
+<div class="card total">
+<h3>Total $</h3>
+<h2 id="total">$0</h2>
+</div>
+
+<div class="card hoy">
+<h3>Hoy</h3>
+<h2 id="hoy">0</h2>
+</div>
+
+<div class="card siete">
+<h3>1-7 días</h3>
+<h2 id="siete">0</h2>
+</div>
+
+<div class="card quince">
+<h3>8-15 días</h3>
+<h2 id="quince">0</h2>
+</div>
+
+<div class="card mas">
+<h3>+15 días</h3>
+<h2 id="mas">0</h2>
+</div>
+
+</div>
+
+
 <table id="tabla">
+
 <thead>
 <tr>
 
@@ -69,6 +124,7 @@ text-align:right;
 
 </table>
 
+
 <script>
 
 const API="https://script.google.com/macros/s/AKfycbw9F4mZYEfxW7cgbKwg3oZ2eNLkRzLG2-AaT6f2BnBazZ3nMq6JokoVJ5b6Dmk7vc9P/exec"
@@ -78,6 +134,14 @@ fetch(API)
 .then(data=>{
 
 const tbody=document.querySelector("#tabla tbody")
+
+let total=0
+let hoy=0
+let siete=0
+let quince=0
+let mas=0
+
+const hoyFecha=new Date()
 
 data.forEach(c=>{
 
@@ -98,7 +162,31 @@ tr.innerHTML=`
 
 tbody.appendChild(tr)
 
+let monto=parseFloat(
+String(c.monto)
+.replace(/\./g,"")
+.replace(",",".")
+)
+
+if(!isNaN(monto)) total+=monto
+
+let fechaPago=new Date(c.fechaPago)
+let diff=(fechaPago-hoyFecha)/(1000*60*60*24)
+
+if(diff<=0) hoy++
+else if(diff<=7) siete++
+else if(diff<=15) quince++
+else mas++
+
 })
+
+document.getElementById("total").innerText=
+"$ "+total.toLocaleString("es-AR")
+
+document.getElementById("hoy").innerText=hoy
+document.getElementById("siete").innerText=siete
+document.getElementById("quince").innerText=quince
+document.getElementById("mas").innerText=mas
 
 })
 
