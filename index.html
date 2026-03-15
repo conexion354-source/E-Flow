@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>E-Flow Pro</title>
+  <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-mode">
+  <section id="login" class="login-screen">
+    <img src="mundoled.png" class="logo-empresa" alt="Mundo Led" />
+    <div class="login-card">
+      <p class="eyebrow">Sistema privado</p>
+      <h1>E-Flow Pro</h1>
+      <p class="muted">Control completo de cheques y alertas.</p>
+      <input type="password" id="clave" placeholder="Clave de acceso" />
+      <button class="primary" onclick="login()">Ingresar</button>
+      <button id="installBtnLogin" class="ghost hidden">Instalar app</button>
+    </div>
+  </section>
+
+  <main id="app" class="app hidden">
+    <header class="topbar">
+      <div class="brand">
+        <img src="eflow.png" class="logo-app" alt="E-Flow" />
+        <div>
+          <strong>E-Flow</strong>
+          <p>Agenda de cheques</p>
+        </div>
+      </div>
+    </header>
+
+    <section id="panelView" class="view active">
+      <div class="section-head">
+        <h2>Panel principal</h2>
+        <p>Cheques pendientes, rechazados y anulados</p>
+      </div>
+
+      <div id="statusBanner" class="status-banner hidden"></div>
+
+      <div class="dashboard">
+        <button class="card tappable" data-filter="a_pagar_all">
+          <span>Total a pagar</span>
+          <strong id="total">$0</strong>
+          <small>Ver detalle</small>
+        </button>
+        <button class="card tappable" data-filter="a_pagar_all">
+          <span>Cheques a pagar</span>
+          <strong id="cantidad">0</strong>
+          <small>Ver detalle</small>
+        </button>
+        <button class="card green tappable" data-filter="green">
+          <span>Verdes</span>
+          <strong id="greenCount">0</strong>
+          <small>30+ días</small>
+        </button>
+        <button class="card yellow tappable" data-filter="yellow">
+          <span>Amarillos</span>
+          <strong id="yellowCount">0</strong>
+          <small>&lt;15 días</small>
+        </button>
+        <button class="card orange tappable" data-filter="orange">
+          <span>Naranjas</span>
+          <strong id="orangeCount">0</strong>
+          <small>&lt;5 días</small>
+        </button>
+        <button class="card red tappable" data-filter="red">
+          <span>Rojos</span>
+          <strong id="redCount">0</strong>
+          <small>Hoy / 1 día</small>
+        </button>
+      </div>
+
+      <div class="legend">
+        <div><span class="dot dot-green"></span>30 días o más</div>
+        <div><span class="dot dot-yellow"></span>Menos de 15 días</div>
+        <div><span class="dot dot-orange"></span>Menos de 5 días</div>
+        <div><span class="dot dot-red"></span>1 día o hoy</div>
+      </div>
+
+      <div id="installCard" class="utility-card">
+        <div>
+          <strong>Instalar app</strong>
+          <p>Guardala en la pantalla principal.</p>
+        </div>
+        <button id="installBtnTop" class="primary small hidden">Instalar app</button>
+      </div>
+
+      <div id="notifyCard" class="utility-card">
+        <div>
+          <strong>Notificaciones push</strong>
+          <p>Recibir avisos aunque la app no esté abierta.</p>
+        </div>
+        <button id="notifyBtn" class="primary small">Activar</button>
+      </div>
+
+      <div class="status-lists">
+        <div class="status-card purple">
+          <button class="expand-head" type="button" onclick="toggleStatusGroup('rechazados')">
+            <div>
+              <h3>Rechazados</h3>
+              <span id="rechazadosCount">0</span>
+            </div>
+            <span id="rechazadosPlus" class="plus">+</span>
+          </button>
+          <div id="rechazadosList" class="mini-list collapsed"></div>
+        </div>
+
+        <div class="status-card white">
+          <button class="expand-head" type="button" onclick="toggleStatusGroup('anulados')">
+            <div>
+              <h3>Anulados</h3>
+              <span id="anuladosCount">0</span>
+            </div>
+            <span id="anuladosPlus" class="plus">+</span>
+          </button>
+          <div id="anuladosList" class="mini-list collapsed"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calendarioView" class="view">
+      <div class="section-head">
+        <h2>Calendario mensual</h2>
+        <p>Tocá un día coloreado para ver los cheques.</p>
+      </div>
+      <div class="month-nav">
+        <button class="ghost nav-btn" id="prevMonth">◀</button>
+        <strong id="monthTitle">Mes</strong>
+        <button class="ghost nav-btn" id="nextMonth">▶</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <div id="calendarDayDetail" class="calendar-day-detail"></div>
+    </section>
+
+    <section id="chequesView" class="view">
+      <div class="section-head">
+        <h2 id="chequesTitle">Cheques</h2>
+        <p id="chequesSubtitle">Listado detallado</p>
+      </div>
+      <input class="buscador" id="buscar" placeholder="Buscar proveedor, banco, número, tipo o estado" />
+      <div id="lista" class="lista"></div>
+    </section>
+
+    <section id="configView" class="view">
+      <div class="section-head">
+        <h2>Configuración</h2>
+        <p>Instalación, notificaciones y token</p>
+      </div>
+      <div class="config-card">
+        <div id="installConfigRow" class="config-row">
+          <div>
+            <strong>Instalar aplicación</strong>
+            <p>También podés instalarla desde acá.</p>
+          </div>
+          <button id="installBtnInside" class="primary alt hidden">Instalar app</button>
+        </div>
+        <div id="notifyConfigRow" class="config-row">
+          <div>
+            <strong>Notificaciones push</strong>
+            <p>Activa el permiso y genera el token del dispositivo.</p>
+          </div>
+          <button id="notifyBtnInside" class="primary alt">Activar</button>
+        </div>
+        <div class="config-row column">
+          <div>
+            <strong>Token del dispositivo</strong>
+            <p>Copialo si luego querés enviar pruebas desde Firebase o tu backend.</p>
+          </div>
+          <textarea id="pushToken" class="token-box" readonly placeholder="Todavía no generado"></textarea>
+          <button id="copyTokenBtn" class="ghost small">Copiar token</button>
+        </div>
+        <div class="config-row">
+          <div>
+            <strong>Cerrar sesión</strong>
+            <p>Bloquear el sistema y volver al login.</p>
+          </div>
+          <button class="ghost danger" onclick="logout()">Cerrar sesión</button>
+        </div>
+      </div>
+      <div class="privacy-note">
+        <strong>Estado de conexión</strong>
+        <p id="apiStatusText">Sin revisar.</p>
+      </div>
+      <div class="privacy-note">
+        <strong>Importante</strong>
+        <p>Esta versión ya puede recibir push en segundo plano, pero para avisos automáticos reales todavía hace falta enviar mensajes desde Firebase o desde un backend propio.</p>
+      </div>
+    </section>
+
+    <nav class="menu">
+      <button class="menu-item active" data-view="panelView">🏠<span>Panel</span></button>
+      <button class="menu-item" data-view="calendarioView">🗓️<span>Calendario</span></button>
+      <button class="menu-item" data-view="chequesView">📄<span>Cheques</span></button>
+      <button class="menu-item" data-view="configView">⚙️<span>Config</span></button>
+    </nav>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
