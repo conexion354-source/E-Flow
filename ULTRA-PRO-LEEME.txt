@@ -1,0 +1,23 @@
+E-FLOW ULTRA PRO - AUTOMATIZACIÓN DE NOTIFICACIONES
+
+Qué incluye este ZIP:
+- App web/PWA con Firebase Push listo
+- Token del dispositivo visible en Config
+- Archivo de ejemplo para automatizar avisos
+
+IMPORTANTE
+La app YA PUEDE RECIBIR notificaciones con la app cerrada.
+Para que los avisos salgan automáticamente, necesitás un emisor.
+En este ZIP te dejo una base para hacerlo.
+
+CAMINO RECOMENDADO
+1) Instalá la app
+2) Activá notificaciones
+3) Copiá el token del dispositivo desde Config
+4) Guardá ese token en una hoja o archivo
+5) Usá el script/plantilla incluida para enviar avisos automáticos
+
+LIMITACIÓN REAL
+Para enviar mensajes automáticos con Firebase HTTP v1 hace falta una cuenta de servicio
+(service account) y su JSON de credenciales.
+Por seguridad, ese archivo NO se genera automáticamente desde acá.
