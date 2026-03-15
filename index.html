@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>E-Flow</title>
+  <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-mode">
+  <section id="login" class="login-screen">
+    <img src="mundoled.png" class="logo-empresa" alt="Mundo Led" />
+    <div class="login-card">
+      <p class="eyebrow">Sistema privado</p>
+      <h1>E-Flow</h1>
+      <p class="muted">Control de cheques y agenda de vencimientos.</p>
+      <input type="password" id="clave" placeholder="Clave de acceso" />
+      <button id="installBtnLogin" class="ghost hidden" type="button">Instalar app</button>
+      <button id="loginBtn" class="primary" type="button">Ingresar</button>
+    </div>
+  </section>
+
+  <main id="app" class="app hidden">
+    <header class="topbar">
+      <div class="brand">
+        <img src="eflow.png" class="logo-app" alt="E-Flow" />
+        <div>
+          <strong>E-Flow</strong>
+          <p>Agenda de cheques</p>
+        </div>
+      </div>
+    </header>
+
+    <section id="panelView" class="view active">
+      <div class="section-head">
+        <h2>Panel principal</h2>
+        <p>Cheques pendientes, rechazados y anulados</p>
+      </div>
+
+      <div id="statusBanner" class="status-banner hidden"></div>
+
+      <div class="dashboard">
+        <button class="card tappable" data-filter="a_pagar_all" type="button">
+          <span>Total a pagar</span>
+          <strong id="total">$ 0</strong>
+          <small>Ver detalle</small>
+        </button>
+        <button class="card tappable" data-filter="a_pagar_all" type="button">
+          <span>Cheques a pagar</span>
+          <strong id="cantidad">0</strong>
+          <small>Ver detalle</small>
+        </button>
+        <button class="card green tappable" data-filter="green" type="button">
+          <span>Más de 30 días</span>
+          <strong id="greenCount">0</strong>
+          <small>Ver detalle</small>
+        </button>
+        <button class="card yellow tappable" data-filter="yellow" type="button">
+          <span>Menos de 15 días</span>
+          <strong id="yellowCount">0</strong>
+          <small>Ver detalle</small>
+        </button>
+        <button class="card orange tappable" data-filter="orange" type="button">
+          <span>Menos de 5 días</span>
+          <strong id="orangeCount">0</strong>
+          <small>Ver detalle</small>
+        </button>
+        <button class="card red tappable" data-filter="red" type="button">
+          <span>1 día o hoy</span>
+          <strong id="redCount">0</strong>
+          <small>Ver detalle</small>
+        </button>
+      </div>
+
+      <div class="status-lists">
+        <div class="status-card purple">
+          <button class="expand-head" type="button" data-toggle-group="rechazados">
+            <div>
+              <h3>Rechazados</h3>
+              <span id="rechazadosCount">0</span>
+            </div>
+            <span id="rechazadosPlus" class="plus">+</span>
+          </button>
+          <div id="rechazadosList" class="mini-list collapsed"></div>
+        </div>
+
+        <div class="status-card white">
+          <button class="expand-head" type="button" data-toggle-group="anulados">
+            <div>
+              <h3>Anulados</h3>
+              <span id="anuladosCount">0</span>
+            </div>
+            <span id="anuladosPlus" class="plus">+</span>
+          </button>
+          <div id="anuladosList" class="mini-list collapsed"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calendarioView" class="view">
+      <div class="section-head">
+        <h2>Calendario mensual</h2>
+        <p>Tocá un día coloreado para ver los cheques.</p>
+      </div>
+      <div class="month-nav">
+        <button class="ghost nav-btn" id="prevMonth" type="button">◀</button>
+        <strong id="monthTitle">Mes</strong>
+        <button class="ghost nav-btn" id="nextMonth" type="button">▶</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <div id="calendarDayDetail" class="calendar-day-detail"></div>
+    </section>
+
+    <section id="chequesView" class="view">
+      <div class="section-head">
+        <h2 id="chequesTitle">Cheques</h2>
+        <p id="chequesSubtitle">Listado detallado</p>
+      </div>
+      <input class="buscador" id="buscar" placeholder="Buscar proveedor, banco, número, tipo o estado" />
+      <div id="lista" class="lista"></div>
+    </section>
+
+    <section id="configView" class="view">
+      <div class="section-head">
+        <h2>Configuración</h2>
+        <p>Estado y acceso</p>
+      </div>
+      <div class="config-card">
+        <div class="config-row">
+          <div>
+            <strong>Estado de conexión</strong>
+            <p id="apiStatusText">Sin revisar.</p>
+          </div>
+        </div>
+        <div class="config-row">
+          <div>
+            <strong>Cerrar sesión</strong>
+            <p>Bloquear el sistema y volver al login.</p>
+          </div>
+          <button id="logoutBtn" class="ghost danger" type="button">Cerrar sesión</button>
+        </div>
+      </div>
+    </section>
+
+    <nav class="menu">
+      <button class="menu-item active" data-view="panelView" type="button">🏠<span>Panel</span></button>
+      <button class="menu-item" data-view="calendarioView" type="button">🗓️<span>Calendario</span></button>
+      <button class="menu-item" data-view="chequesView" type="button">📄<span>Cheques</span></button>
+      <button class="menu-item" data-view="configView" type="button">⚙️<span>Config</span></button>
+    </nav>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
