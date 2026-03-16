@@ -15,13 +15,24 @@
 <body class="login-mode">
   <section id="login" class="login-screen">
     <img src="mundoled.png" class="logo-empresa" alt="Mundo Led" />
+
     <div class="login-card">
       <p class="eyebrow">Sistema privado</p>
       <h1>E-Flow</h1>
       <p class="muted">Control de cheques y agenda de vencimientos.</p>
+
       <input type="password" id="clave" placeholder="Clave de acceso" />
-      <button id="installBtnLogin" class="ghost" type="button">Instalar app</button>
+
       <button id="loginBtn" class="primary" type="button">Ingresar</button>
+
+      <button
+        id="installBtnLogin"
+        class="ghost hidden"
+        type="button"
+        style="margin-top: 14px;"
+      >
+        Instalar app
+      </button>
     </div>
   </section>
 
@@ -50,26 +61,31 @@
           <strong id="total">$ 0</strong>
           <small>Ver detalle</small>
         </button>
+
         <button class="card tappable" data-filter="a_pagar_all" type="button">
           <span>Cheques a pagar</span>
           <strong id="cantidad">0</strong>
           <small>Ver detalle</small>
         </button>
+
         <button class="card green tappable" data-filter="green" type="button">
           <span>Más de 30 días</span>
           <strong id="greenCount">0</strong>
           <small>Ver detalle</small>
         </button>
+
         <button class="card yellow tappable" data-filter="yellow" type="button">
           <span>Menos de 15 días</span>
           <strong id="yellowCount">0</strong>
           <small>Ver detalle</small>
         </button>
+
         <button class="card orange tappable" data-filter="orange" type="button">
           <span>Menos de 5 días</span>
           <strong id="orangeCount">0</strong>
           <small>Ver detalle</small>
         </button>
+
         <button class="card red tappable" data-filter="red" type="button">
           <span>1 día o hoy</span>
           <strong id="redCount">0</strong>
@@ -107,11 +123,13 @@
         <h2>Calendario mensual</h2>
         <p>Tocá un día coloreado para ver los cheques.</p>
       </div>
+
       <div class="month-nav">
         <button class="ghost nav-btn" id="prevMonth" type="button">◀</button>
         <strong id="monthTitle">Mes</strong>
         <button class="ghost nav-btn" id="nextMonth" type="button">▶</button>
       </div>
+
       <div class="calendar-grid" id="calendarGrid"></div>
       <div id="calendarDayDetail" class="calendar-day-detail"></div>
     </section>
@@ -121,7 +139,13 @@
         <h2 id="chequesTitle">Cheques</h2>
         <p id="chequesSubtitle">Listado detallado</p>
       </div>
-      <input class="buscador" id="buscar" placeholder="Buscar proveedor, banco, número, tipo o estado" />
+
+      <input
+        class="buscador"
+        id="buscar"
+        placeholder="Buscar proveedor, banco, número, tipo o estado"
+      />
+
       <div id="lista" class="lista"></div>
     </section>
 
@@ -130,6 +154,7 @@
         <h2>Configuración</h2>
         <p>Estado y acceso</p>
       </div>
+
       <div class="config-card">
         <div class="config-row">
           <div>
@@ -137,6 +162,7 @@
             <p id="apiStatusText">Sin revisar.</p>
           </div>
         </div>
+
         <div class="config-row">
           <div>
             <strong>Cerrar sesión</strong>
@@ -148,10 +174,25 @@
     </section>
 
     <nav class="menu">
-      <button class="menu-item active" data-view="panelView" type="button">🏠<span>Panel</span></button>
-      <button class="menu-item" data-view="calendarioView" type="button">🗓️<span>Calendario</span></button>
-      <button class="menu-item" data-view="chequesView" type="button">📄<span>Cheques</span></button>
-      <button class="menu-item" data-view="configView" type="button">⚙️<span>Config</span></button>
+      <button class="menu-item active" data-view="panelView" type="button">
+        🏠
+        <span>Panel</span>
+      </button>
+
+      <button class="menu-item" data-view="calendarioView" type="button">
+        🗓️
+        <span>Calendario</span>
+      </button>
+
+      <button class="menu-item" data-view="chequesView" type="button">
+        📄
+        <span>Cheques</span>
+      </button>
+
+      <button class="menu-item" data-view="configView" type="button">
+        ⚙️
+        <span>Config</span>
+      </button>
     </nav>
   </main>
 
