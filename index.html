@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>E-Flow</title>
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-mode">
+  <section id="login" class="login-screen">
+    <img src="mundoled.png" class="logo-empresa" alt="Mundo Led" />
+
+    <div class="login-card">
+      <p class="eyebrow">Sistema privado</p>
+      <h1>E-Flow</h1>
+      <p class="muted">Control de cheques y agenda de vencimientos.</p>
+
+      <input type="password" id="clave" placeholder="Clave de acceso" />
+
+      <button id="loginBtn" class="btn-primary" type="button">Ingresar</button>
+
+      <button id="installBtnLogin" class="btn-soft hidden" type="button" style="margin-top: 12px;">
+        Instalar app
+      </button>
+    </div>
+  </section>
+
+  <main id="app" class="app hidden">
+    <button id="simulatorBtn" class="simulator-btn" type="button" title="Alternar vista">
+      Simular móvil
+    </button>
+
+    <div id="appShell" class="app-shell">
+      <aside id="desktopNav" class="desktop-nav"></aside>
+
+      <section class="main-area">
+        <header class="mobile-brand">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <img src="eflow.png" alt="E-Flow" />
+            <strong>E-Flow</strong>
+          </div>
+          <button id="logoutBtnMobile" class="btn-soft mobile-logout" type="button">Salir</button>
+        </header>
+
+        <div id="statusBanner" class="status-banner hidden"></div>
+        <div id="viewContainer" class="view-container"></div>
+      </section>
+
+      <nav id="mobileNav" class="mobile-nav"></nav>
+    </div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
